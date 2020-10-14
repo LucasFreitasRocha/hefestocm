@@ -2,14 +2,19 @@ package com.cm.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.cm.domain.enums.StatusPedido;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Pedido implements Serializable {
@@ -28,6 +33,14 @@ public class Pedido implements Serializable {
 	private Date dataEntrega;
 	private Date dataCancelamento;
 	
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "pedido")
+	private List<ItemPedido> itens = new ArrayList<>();
+	
+	
+	
+
 	public Pedido() {}
 
 	public Pedido(Integer id, String codigo, StatusPedido status, BigDecimal subTotal, BigDecimal taxaFrete,
@@ -123,6 +136,13 @@ public class Pedido implements Serializable {
 
 	public void setDataCancelamento(Date dataCancelamento) {
 		this.dataCancelamento = dataCancelamento;
+	}
+	public List<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(List<ItemPedido> itens) {
+		this.itens = itens;
 	}
 
 	@Override
