@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,7 +35,7 @@ public class Pedido implements Serializable {
 	
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "pedido")
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<ItemPedido> itens = new ArrayList<>();
 	
 	
@@ -55,6 +56,15 @@ public class Pedido implements Serializable {
 		this.dataConfirmacao = dataConfirmacao;
 		this.dataEntrega = dataEntrega;
 		this.dataCancelamento = dataCancelamento;
+	}
+	
+
+	public Pedido(String codigo, StatusPedido status, BigDecimal taxaFrete, Date dataCriacao) {
+		super();
+		this.codigo = codigo;
+		this.status = status.getCod();
+		this.taxaFrete = taxaFrete;
+		this.dataCriacao = dataCriacao;
 	}
 
 	public Integer getId() {

@@ -3,7 +3,6 @@ package com.cm.resources;
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cm.domain.Pedido;
+import com.cm.dto.PedidoNewDTO;
 import com.cm.services.PedidoService;
 
 @RestController
@@ -33,13 +33,20 @@ public class PedidoResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> create(@RequestBody Pedido obj) {
-		obj = service.create(obj);
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> create(@RequestBody PedidoNewDTO objDTO) {
+		Pedido obj = service.create(objDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
+	@RequestMapping(value="/teste", method = RequestMethod.POST)
+	public ResponseEntity<?> teste(@RequestBody PedidoNewDTO objDTO) {
+		
+		return ResponseEntity.ok().body(objDTO.getItemsNewDTO());
+	}
+	
+	
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody Pedido obj, @PathVariable Integer id) {
 		obj.setId(id);

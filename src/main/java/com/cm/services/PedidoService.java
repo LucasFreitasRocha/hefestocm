@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cm.domain.Pedido;
+import com.cm.domain.enums.StatusPedido;
+import com.cm.dto.PedidoNewDTO;
 import com.cm.repositories.PedidoRepository;
 import com.cm.services.exceptions.ObjectNotFoundException;
 
@@ -21,7 +23,8 @@ public class PedidoService {
 				"Pedido não encontrado com esse id: " + id + ", Tipo: " + Pedido.class.getName()));
 	}
 
-	public Pedido create(Pedido obj) {
+	public Pedido create(PedidoNewDTO objDTO) {
+		Pedido obj = mountPedidoFromPedidoDTO(objDTO);
 		obj.setId(null);
 		return repo.save(obj);
 	}
@@ -30,9 +33,17 @@ public class PedidoService {
 		find(obj.getId());
 		return repo.save(obj);
 	}
+	
+	
 
 	public void delete(Integer id) {
 		find(id);
 		repo.deleteById(id);
+	}
+	private Pedido mountPedidoFromPedidoDTO(PedidoNewDTO objDTO) {
+		Pedido obj = new Pedido(objDTO.getCodigo(), StatusPedido.toEnum(objDTO.getStatus()), objDTO.getTaxaFrete(), objDTO.getDataCriacao() );
+		
+		
+		return obj;
 	}
 }
