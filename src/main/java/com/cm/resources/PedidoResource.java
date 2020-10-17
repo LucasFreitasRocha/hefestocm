@@ -24,7 +24,7 @@ public class PedidoResource {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> Listar() {
-		return ResponseEntity.ok().body("teste");
+		return ResponseEntity.ok().body(service.index());
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

@@ -3,6 +3,7 @@ package com.cm.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,6 +29,10 @@ public class ItemPedido implements Serializable {
 	@JoinColumn(name="id_pedido")
 	private Pedido pedido;
 	
+	@Column(name="id_pedido", updatable=false, insertable=false) 
+    private Long id_pedido;
+
+	
 	public ItemPedido() {}
 
 	public ItemPedido(Integer id, Integer quantidade, BigDecimal precoUnitario, BigDecimal precoTotal,
@@ -37,6 +42,15 @@ public class ItemPedido implements Serializable {
 		this.quantidade = quantidade;
 		this.precoUnitario = precoUnitario;
 		this.precoTotal = precoTotal;
+		this.observacao = observacao;
+		this.pedido = pedido;
+	}
+	
+
+	public ItemPedido(Integer quantidade, BigDecimal precoUnitario, String observacao, Pedido pedido) {
+		super();
+		this.quantidade = quantidade;
+		this.precoUnitario = precoUnitario;
 		this.observacao = observacao;
 		this.pedido = pedido;
 	}
@@ -88,6 +102,20 @@ public class ItemPedido implements Serializable {
 
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
+	}
+	
+
+	public Long getid_pedido() {
+		return id_pedido;
+	}
+
+	public void setid_pedido(Long idPedido) {
+		this.id_pedido = idPedido;
+	}
+	
+	public BigDecimal calcularPrecoTotal(Integer quantidade , BigDecimal precoUnitario) {
+		BigDecimal precoTotal = new BigDecimal(quantidade);
+		return precoTotal.multiply(precoUnitario);
 	}
 
 	@Override

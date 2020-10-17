@@ -27,7 +27,9 @@ public class PedidoService {
 	 
 
 	
-	
+	public List<Pedido> index(){
+		return repo.findAll();
+	}
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
@@ -55,6 +57,44 @@ public class PedidoService {
 		if(newObj.getTaxaFrete() != null) {
 			obj.setTaxaFrete(newObj.getTaxaFrete() );
 			obj.setValorTotal(Calcular.calcularTotalPedido(newObj.getTaxaFrete(), obj.getSubTotal()));
+		}
+		if(newObj.getSubTotal() != null ) {
+			obj.setSubTotal(newObj.getSubTotal());
+			obj.setValorTotal(Calcular.calcularTotalPedido(obj.getTaxaFrete(), newObj.getSubTotal()));
+		}
+		if(newObj.getItens() != null) {
+			obj.setItens(newObj.getItens());
+			BigDecimal precoTotal = new BigDecimal(0);
+			for(ItemPedido objItem : newObj.getItens()) {
+				BigDecimal precoTotalItem = new BigDecimal(objItem.getQuantidade());
+				precoTotalItem = precoTotalItem.multiply(objItem.getPrecoUnitario());
+				objItem.setPrecoTotal(precoTotalItem);
+				objItem.setPedido(obj);
+				precoTotal = precoTotal.add(precoTotalItem);
+				
+			}
+			obj.setSubTotal(precoTotal);
+			obj.setValorTotal(precoTotal.add(obj.getTaxaFrete()));
+			
+		}
+		if(newObj.getStatus() != null) {
+			obj.setStatus(StatusPedido.toEnum(newObj.getStatus()));
+			switch (newObj.getStatus()) {
+			case 1:
+				obj.setDataCriacao(new Date());
+				break;
+			case 2:
+				obj.setDataConfirmacao(new Date());
+				break;
+			case 3:
+				obj.setDataEntrega(new Date());
+				break;
+			case 4:
+				obj.setDataCancelamento(new Date());
+				break;
+			default:
+				break;
+			}
 		}
 		return obj;
 	}
