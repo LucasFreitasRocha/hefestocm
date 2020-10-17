@@ -13,16 +13,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.cm.domain.enums.StatusPedido;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.sun.istack.NotNull;
 
 @Entity
+@JsonInclude(Include.NON_NULL)
+@DynamicUpdate
 public class Pedido implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	@NotNull
 	private String codigo;
 	private Integer status;
 	private BigDecimal subTotal;
@@ -34,7 +41,7 @@ public class Pedido implements Serializable {
 	private Date dataCancelamento;
 	
 	
-	@JsonIgnore
+	
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<ItemPedido> itens = new ArrayList<>();
 	
