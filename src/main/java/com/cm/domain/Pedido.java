@@ -13,23 +13,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.DynamicUpdate;
-
 import com.cm.domain.enums.StatusPedido;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.sun.istack.NotNull;
+
 
 @Entity
 @JsonInclude(Include.NON_NULL)
-@DynamicUpdate
+
 public class Pedido implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	@NotNull
 	private String codigo;
 	private Integer status;
 	private BigDecimal subTotal;
@@ -185,7 +182,9 @@ public class Pedido implements Serializable {
 			return false;
 		return true;
 	}
-	
+	public BigDecimal calcularTotalPedido(BigDecimal frete, BigDecimal subTotal) {
+		return frete.add(subTotal);
+	}
 	
 	
 

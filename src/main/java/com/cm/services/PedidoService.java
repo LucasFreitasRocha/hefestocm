@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +20,6 @@ import com.cm.dto.PedidoDTO;
 import com.cm.dto.PedidoNewDTO;
 import com.cm.repositories.PedidoRepository;
 import com.cm.services.exceptions.ObjectNotFoundException;
-import com.cm.utils.Calcular;
 
 @Service
 public class PedidoService {
@@ -29,6 +31,11 @@ public class PedidoService {
 	
 	public List<Pedido> index(){
 		return repo.findAll();
+	}
+	
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findAll(pageRequest);
 	}
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
@@ -56,11 +63,11 @@ public class PedidoService {
 		}
 		if(newObj.getTaxaFrete() != null) {
 			obj.setTaxaFrete(newObj.getTaxaFrete() );
-			obj.setValorTotal(Calcular.calcularTotalPedido(newObj.getTaxaFrete(), obj.getSubTotal()));
+			obj.setValorTotal(obj.calcularTotalPedido(newObj.getTaxaFrete(), obj.getSubTotal()));
 		}
 		if(newObj.getSubTotal() != null ) {
 			obj.setSubTotal(newObj.getSubTotal());
-			obj.setValorTotal(Calcular.calcularTotalPedido(obj.getTaxaFrete(), newObj.getSubTotal()));
+			obj.setValorTotal(obj.calcularTotalPedido(obj.getTaxaFrete(), newObj.getSubTotal()));
 		}
 		if(newObj.getItens() != null) {
 			obj.setItens(newObj.getItens());

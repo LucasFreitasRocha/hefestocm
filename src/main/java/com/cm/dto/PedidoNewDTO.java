@@ -3,20 +3,24 @@ package com.cm.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.cm.domain.ItemPedido;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class PedidoNewDTO  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	@NotEmpty(message = "campo obrigatorio")
 	private String codigo;
+	@NotNull(message = "campo obrigatorio")
 	private Integer status;
+	@NotNull(message = "campo obrigatorio")
 	private BigDecimal taxaFrete;
-	private Date dataCriacao;
+	@NotNull(message = "campo obrigatorio")
 	private List<ItemPedido> itemsNewDTO = new ArrayList<>();
 	
 	
@@ -49,13 +53,7 @@ public class PedidoNewDTO  implements Serializable {
 	}
 
 
-	public Date getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public void setDataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
+	
 
 	public List<ItemPedido> getItemsNewDTO() {
 		return itemsNewDTO;

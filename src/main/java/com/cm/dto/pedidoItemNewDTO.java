@@ -2,13 +2,18 @@ package com.cm.dto;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.NotNull;
+
 public class pedidoItemNewDTO {
 	
+	@NotNull(message = "campo obrigatorio")
 	private Integer quantidade;
+	@NotNull(message = "campo obrigatorio")
 	private BigDecimal precoUnitario;
 	private String observacao;
 	private PedidoDTO pedido;
 	
+	@NotNull(message = "campo obrigatorio")
 	private Integer id_pedido;
 	
 	
