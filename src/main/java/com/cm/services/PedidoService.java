@@ -51,23 +51,20 @@ public class PedidoService {
 	}
 	public Pedido update(PedidoDTO newObj)  {
 		Pedido oldObjs = find(newObj.getId());
-		
-		return repo.save(updateData(oldObjs,newObj)) ;
+		newObj.setItens(oldObjs.getItens());
+		oldObjs = updateData(oldObjs,newObj);
+		return repo.save(oldObjs) ;
 	}
 	
 	
 
 	private Pedido updateData( Pedido obj, PedidoDTO newObj)  {
-		if(newObj.getCodigo() !=null) {
+		if(newObj.getCodigo() != null) {
 			obj.setCodigo(newObj.getCodigo());
 		}
 		if(newObj.getTaxaFrete() != null) {
 			obj.setTaxaFrete(newObj.getTaxaFrete() );
 			obj.setValorTotal(obj.calcularTotalPedido(newObj.getTaxaFrete(), obj.getSubTotal()));
-		}
-		if(newObj.getSubTotal() != null ) {
-			obj.setSubTotal(newObj.getSubTotal());
-			obj.setValorTotal(obj.calcularTotalPedido(obj.getTaxaFrete(), newObj.getSubTotal()));
 		}
 		if(newObj.getItens() != null) {
 			obj.setItens(newObj.getItens());

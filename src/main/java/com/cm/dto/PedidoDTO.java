@@ -18,9 +18,8 @@ public class PedidoDTO implements Serializable {
 	private Integer id;
 	private String codigo;
 	private Integer status;
-	private BigDecimal subTotal;
+	
 	private BigDecimal taxaFrete;
-	private BigDecimal ValorTotal;
 	private Date dataCriacao;
 	private Date dataConfirmacao;
 	private Date dataEntrega;
@@ -63,13 +62,7 @@ public class PedidoDTO implements Serializable {
 		this.status = status;
 	}
 
-	public BigDecimal getSubTotal() {
-		return subTotal;
-	}
-
-	public void setSubTotal(BigDecimal subTotal) {
-		this.subTotal = subTotal;
-	}
+	
 
 	public BigDecimal getTaxaFrete() {
 		return taxaFrete;
@@ -79,14 +72,7 @@ public class PedidoDTO implements Serializable {
 		this.taxaFrete = taxaFrete;
 	}
 
-	public BigDecimal getValorTotal() {
-		return ValorTotal;
-	}
-
-	public void setValorTotal(BigDecimal valorTotal) {
-		ValorTotal = valorTotal;
-	}
-
+	
 	public Date getDataCriacao() {
 		return dataCriacao;
 	}

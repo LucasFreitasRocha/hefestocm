@@ -71,7 +71,6 @@ public class PedidoResource {
 	public ResponseEntity<Pedido> update(@RequestBody PedidoDTO obj, @PathVariable Integer id) {
 		obj.setId(id);
 		service.update(obj);
-
 		return ResponseEntity.noContent().build();
 
 	}
