@@ -111,17 +111,16 @@ public class PedidoService {
 	}
 	public Pedido mountPedidoFromPedidoDTO(PedidoNewDTO objDTO) {
 		Date date = new Date(); 
+		
+		
 		Pedido obj = new Pedido(objDTO.getCodigo(), StatusPedido.toEnum(objDTO.getStatus()), objDTO.getTaxaFrete(), date );
 		BigDecimal precoTotal = new BigDecimal(0);
-		obj.setItens(objDTO.getItemsNewDTO());
 		List<ItemPedido> itens = new ArrayList<>();
 		for(ItemPedido objItem : objDTO.getItemsNewDTO()) {
-			BigDecimal precoTotalItem = new BigDecimal(objItem.getQuantidade());
-			precoTotalItem = precoTotalItem.multiply(objItem.getPrecoUnitario());
-			objItem.setPrecoTotal(precoTotalItem);
+			objItem.setPrecoTotal(objItem.calcularPrecoTotal(objItem.getQuantidade(), objItem.getPrecoUnitario()));
 			objItem.setPedido(obj);
 			itens.add(objItem);
-			precoTotal = precoTotal.add(precoTotalItem);
+			precoTotal = precoTotal.add(objItem.getPrecoTotal());
 			
 		}
 		

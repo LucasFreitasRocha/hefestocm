@@ -1,5 +1,7 @@
 package com.cm.resources;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +29,7 @@ public class ItemPedidoResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> create(@RequestBody pedidoItemNewDTO objDTO) {
+	public ResponseEntity<Void> create(@Valid @RequestBody pedidoItemNewDTO objDTO) {
 		 service.create(objDTO);
 		return ResponseEntity.noContent().build();
 	}

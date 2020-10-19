@@ -20,7 +20,7 @@ public class PedidoNewDTO  implements Serializable {
 	private Integer status;
 	@NotNull(message = "campo obrigatorio")
 	private BigDecimal taxaFrete;
-	@NotNull(message = "campo obrigatorio")
+	@NotEmpty(message = "campo obrigatorio")
 	private List<ItemPedido> itemsNewDTO = new ArrayList<>();
 	
 	
@@ -64,8 +64,5 @@ public class PedidoNewDTO  implements Serializable {
 		this.itemsNewDTO = itemsNewDTO;
 	}
 
-	
-	
-	
 
 }

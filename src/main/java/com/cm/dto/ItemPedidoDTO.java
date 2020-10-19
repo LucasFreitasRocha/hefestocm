@@ -7,6 +7,7 @@ public class ItemPedidoDTO {
 	private Integer quantidade;
 	private BigDecimal precoUnitario;
 	private String observacao;
+	
 	public Integer getId() {
 		return id;
 	}
